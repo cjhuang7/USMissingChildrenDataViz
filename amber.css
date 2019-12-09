@@ -1,0 +1,90 @@
+body {
+	background-color: black;
+	font-family: 'Roboto', 'Futura', sans-serif;
+}
+
+#container {
+	position:relative;
+	margin: auto;
+	width: 1024px;
+	overflow: hidden;
+}
+
+#header {
+	color: #d8d8d8;
+	font-size: 36px;
+	font-style: 'Roboto';
+	font-weight: 300;
+}
+
+#statistics{
+	height: 100px;
+}
+
+#child {
+	position: absolute;
+	left: 0px;
+	top: 80px;
+}
+
+#year {
+	position: absolute;
+	right: 32px;
+	top: 80px;
+}
+
+
+#lostChildNumber {
+	color: #FF4112;
+	font-size: 68px;
+	font-style: 'Roboto';
+	font-weight: 400;
+	float: left;
+}
+
+#lostChild {
+	color: #FF4112;
+	font-size: 16px;
+	font-style: 'Roboto';
+	font-weight: bold;
+	float: left;
+}
+
+#lostYearNumber {
+	color: #d8d8d8;
+	font-size: 68px;
+	font-style: 'Roboto';
+	font-weight: 400;
+	float: right;
+}
+
+#lostYear {
+	color: #d8d8d8;
+	font-size: 16px;
+	font-style: 'Roboto';
+	font-weight: bold;
+	float: right;
+}
+
+/* On mouse hover, lighten state color */
+path:hover {
+	fill-opacity: .7;
+}
+
+/* Style for Custom Tooltip */
+div.tooltip {   
+ 	position: absolute;           
+	text-align: center;           
+	width: 200px;                  
+	height: 50px;                 
+	padding: 2px;             
+	font: 12px sans-serif;        
+	background: white;   
+	border: 0px;      
+	border-radius: 8px;           
+	pointer-events: none;         
+}
+
+#filter {
+	align-self: center;
+} 
