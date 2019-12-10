@@ -4,9 +4,15 @@ var height = 620;
 
 //animation time set 
 var timeOut1 = 0;
-var timeOut2 = 1000;
-var timeOut3 = 2000;
-var timeOut4 = 3000;
+var timeOut2 = 3000;
+var timeOut3 = 6000;
+var timeOut4 = 10000;
+var timeOut5 = 13000;
+var timeOut6 = 16000;
+var timeOut7 = 20000;
+var timeOut8 = 23000;
+var timeOut9 = 26000;
+var timeOut10 = 40000;
 
 //calculate drawing angle
 function angleCal(locationCount){
@@ -90,115 +96,206 @@ d3.csv("counties-missing-child.csv", function(data) {
             .style("stroke-width", "1")
             .style("fill", "none");
 
-          //First Animation
-          setTimeout(showData(0), timeOut1);
-          //Second Animation
-          setTimeout(showData(1), timeOut2);
-          //Third Animation
-          setTimeout(showData(2), timeOut3);
+          //TRIGGER OF EVERYTHING  
+          godSaidItsTheBegining();
           
-          function showData(label){
+          function godSaidItsTheBegining() {
+              firstAnimation(secondAnimation(thirdAnimation));
+          }
+          
+          function firstAnimation(callback){
+            setTimeout(function(){
+            circleDraw(0);
+            orangeLineDraw(0);
+            whiteLineDraw(0);
+            if(typeof callback == 'function')
+            callback();}, 0);
+          }
+          
+          function secondAnimation(callback){
+            setTimeout(function(){
+            setTimeout(function(){
+            circleDraw(1);
+            orangeLineDraw(1);
+            whiteLineDraw(1);}, 3000);
+            if(typeof callback == 'function')
+            callback();}, 0);
+          }
+          
+          function thirdAnimation(){
+            setTimeout(function(){
+              for (var i = 3; i < newData.length; i++) {
+                meteourEffect(i);}
+            }, 6000);
+          }
+
+          function meteourEffect(i){ 
+            setTimeout(function() {
+              circleDraw(i);
+              orangeLineDraw(i);
+              whiteLineDraw(i);
+            }, 5*i);
+          }
+
+          //Function for drawing circle, 2 different lines
+          function circleDraw(label){
             var locationX = projection([newData[label].position[0], newData[label].position[1]])[0];
             var locationY = projection([newData[label].position[0], newData[label].position[1]])[1];
             var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
+            
             svg.append("circle")
               .attr("cx", locationX)
               .attr("cy", locationY)
               .attr("r", 2)
-              //.attr("r", data[i].locationCount*0.5)
               .transition()
-              .duration(100)
-              .delay(300)
+              //.duration(100)
               .ease('linear')
               .style("fill", "#FF4112");
+          }
+
+          function orangeLineDraw(label){
+            if(newData[label].Age.length != 0){
+            var locationX = projection([newData[label].position[0], newData[label].position[1]])[0];
+            var locationY = projection([newData[label].position[0], newData[label].position[1]])[1];
             
             svg.append("line")
-                   .attr({x1:locationX,
-                          y1:locationY,
-                          x2:locationX,
-                          y2:locationY})
-                   .style("stroke", "#FF4112")
-                   .style("stroke-width", 1)
-                   .transition()
-                   .duration(100)
-                   .delay(400)
-                   .ease('linear')
-                   .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
-                          y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]});
+            .attr({x1:locationX,
+                   y1:locationY,
+                   x2:locationX,
+                   y2:locationY})
+            .style("stroke", "#FF4112")
+            .style("stroke-width", 1)
+            .transition()
+            //.duration(100)
+            .ease('linear')
+            .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+                   y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]});
+                  }
+                }
 
-              svg.append("line")
-                     .attr({x1:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
-                            y1:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1],
-                            x2:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
-                            y2:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]})
-                      .style("stroke", "#D8D8D8")
-                      .style("stroke-width", 1)
-                      .transition()
-                      .duration(100)
-                      .delay(500)
-                      .ease('linear')
-                      .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0],
-                             y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]});              
-          }
+          function whiteLineDraw(label){
+            if(newData[label].Age.length != 0){
+            var locationX = projection([newData[label].position[0], newData[label].position[1]])[0];
+            var locationY = projection([newData[label].position[0], newData[label].position[1]])[1];
+            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
+
+            svg.append("line")
+            .attr({x1:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+                   y1:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1],
+                   x2:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+                   y2:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]})
+             .style("stroke", "#D8D8D8")
+             .style("stroke-width", 1)
+             .transition()
+             //.duration(100)
+             .ease('linear')
+             .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0],
+                    y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]}); 
+                  }
+                }
+
+          // function showData(label){
+          //   var locationX = projection([newData[label].position[0], newData[label].position[1]])[0];
+          //   var locationY = projection([newData[label].position[0], newData[label].position[1]])[1];
+          //   var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
+          //   svg.append("circle")
+          //     .attr("cx", locationX)
+          //     .attr("cy", locationY)
+          //     .attr("r", 2)
+          //     .transition()
+          //     .duration(100)
+          //     .delay(300)
+          //     .ease('linear')
+          //     .style("fill", "#FF4112");
+            
+          //   svg.append("line")
+          //          .attr({x1:locationX,
+          //                 y1:locationY,
+          //                 x2:locationX,
+          //                 y2:locationY})
+          //          .style("stroke", "#FF4112")
+          //          .style("stroke-width", 1)
+          //          .transition()
+          //          .duration(100)
+          //          .delay(400)
+          //          .ease('linear')
+          //          .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+          //                 y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]});
+
+          //     svg.append("line")
+          //            .attr({x1:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+          //                   y1:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1],
+          //                   x2:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+          //                   y2:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]})
+          //             .style("stroke", "#D8D8D8")
+          //             .style("stroke-width", 1)
+          //             .transition()
+          //             .duration(100)
+          //             .delay(500)
+          //             .ease('linear')
+          //             .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0],
+          //                    y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]});              
+          // }
           
           //Last Animation Set
-          setTimeout( function(){
-          var lostKidNumber = 0;
-          var lostYear = 0;
-          for (var i = 0; i < newData.length; i++) {
-            var locationX = projection([newData[i].position[0], newData[i].position[1]])[0];
-            var locationY = projection([newData[i].position[0], newData[i].position[1]])[1];
+          // setTimeout( function(){
+          // var lostKidNumber = 0;
+          // var lostYear = 0;
+          // for (var i = 0; i < newData.length; i++) {
+          //   var locationX = projection([newData[i].position[0], newData[i].position[1]])[0];
+          //   var locationY = projection([newData[i].position[0], newData[i].position[1]])[1];
             
-            //visualize missing location
-            svg.append("circle")
-              .attr("cx", locationX)
-              .attr("cy", locationY)
-              .attr("r", 2)
-              //.attr("r", data[i].locationCount*0.5)
-              .transition()
-              .duration(3)
-              .delay(9*i)
-              .ease('linear')
-              .style("fill", "#FF4112");
+          //   //visualize missing location
+          //   svg.append("circle")
+          //     .attr("cx", locationX)
+          //     .attr("cy", locationY)
+          //     .attr("r", 2)
+          //     //.attr("r", data[i].locationCount*0.5)
+          //     .transition()
+          //     .duration(3)
+          //     .delay(9*i)
+          //     .ease('linear')
+          //     .style("fill", "#FF4112");
               
               
-            //visualize missing years 
-              if(newData[i].Age.length != 0){
-                var eachLostYear = 2020 - parseInt(newData[i].BirthDay.slice(-4)) - parseInt(newData[i].Age);
-                lostYear += eachLostYear;
-                svg.append("line")
-                   .attr({x1:locationX,
-                          y1:locationY,
-                          x2:locationX,
-                          y2:locationY})
-                   .style("stroke", "#FF4112")
-                   .style("stroke-width", 1)
-                   .transition()
-                   .duration(3)
-                   .delay(9*i+3)
-                   .ease('linear')
-                   .attr({x2: locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0],
-                          y2: locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1]});
+          //   //visualize missing years 
+          //     if(newData[i].Age.length != 0){
+          //       var eachLostYear = 2020 - parseInt(newData[i].BirthDay.slice(-4)) - parseInt(newData[i].Age);
+          //       lostYear += eachLostYear;
+          //       svg.append("line")
+          //          .attr({x1:locationX,
+          //                 y1:locationY,
+          //                 x2:locationX,
+          //                 y2:locationY})
+          //          .style("stroke", "#FF4112")
+          //          .style("stroke-width", 1)
+          //          .transition()
+          //          .duration(3)
+          //          .delay(9*i+3)
+          //          .ease('linear')
+          //          .attr({x2: locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0],
+          //                 y2: locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1]});
                    
-                svg.append("line")
-                   .attr({x1:locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0],
-                          y1:locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1],
-                          x2:locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0],
-                          y2:locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1]})
-                   .style("stroke", "#D8D8D8")
-                   .style("stroke-width", 1)
-                   .transition()
-                   .duration(3)
-                   .delay(9*i+6)
-                   .ease('linear')
-                   .attr({x2: locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0] - 3*eachLostYear*angleCal(newData[i].locationCount)[0],
-                          y2: locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1] + 3*eachLostYear*angleCal(newData[i].locationCount)[1]});
-               }
-            d3.select("#lostYearNumber").text(lostYear)
-            lostKidNumber += 1;
-            d3.select("#lostChildNumber").text(lostKidNumber)
-          }
-          }, timeOut4);
+          //       svg.append("line")
+          //          .attr({x1:locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0],
+          //                 y1:locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1],
+          //                 x2:locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0],
+          //                 y2:locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1]})
+          //          .style("stroke", "#D8D8D8")
+          //          .style("stroke-width", 1)
+          //          .transition()
+          //          .duration(3)
+          //          .delay(9*i+6)
+          //          .ease('linear')
+          //          .attr({x2: locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0] - 3*eachLostYear*angleCal(newData[i].locationCount)[0],
+          //                 y2: locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1] + 3*eachLostYear*angleCal(newData[i].locationCount)[1]});
+          //      }
+          //   d3.select("#lostYearNumber").text(lostYear)
+          //   lostKidNumber += 1;
+          //   d3.select("#lostChildNumber").text(lostKidNumber)
+          // }
+          // }, timeOut4);
+
           // svg.selectAll("circle")
           //   .data(newData)
           //   .enter()
