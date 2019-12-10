@@ -1,5 +1,12 @@
+//canvas size set
 var width = 1440;
 var height = 620;
+
+//animation time set 
+var timeOut1 = 0;
+var timeOut2 = 1000;
+var timeOut3 = 2000;
+var timeOut4 = 3000;
 
 //calculate drawing angle
 function angleCal(locationCount){
@@ -73,7 +80,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               return d.position != null && Array.isArray(d.position[0]) == false;
             });
               
-          // Bind the data to the SVG and create paths
+          // Draw the US map, bind the data to the SVG and create paths
           svg.selectAll("path")
             .data(json.features)
             .enter()
@@ -83,7 +90,59 @@ d3.csv("counties-missing-child.csv", function(data) {
             .style("stroke-width", "1")
             .style("fill", "none");
 
-          //add dots for each missing child
+          //First Animation
+          setTimeout(showData(0), timeOut1);
+          //Second Animation
+          setTimeout(showData(1), timeOut2);
+          //Third Animation
+          setTimeout(showData(2), timeOut3);
+          
+          function showData(label){
+            var locationX = projection([newData[label].position[0], newData[label].position[1]])[0];
+            var locationY = projection([newData[label].position[0], newData[label].position[1]])[1];
+            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
+            svg.append("circle")
+              .attr("cx", locationX)
+              .attr("cy", locationY)
+              .attr("r", 2)
+              //.attr("r", data[i].locationCount*0.5)
+              .transition()
+              .duration(100)
+              .delay(300)
+              .ease('linear')
+              .style("fill", "#FF4112");
+            
+            svg.append("line")
+                   .attr({x1:locationX,
+                          y1:locationY,
+                          x2:locationX,
+                          y2:locationY})
+                   .style("stroke", "#FF4112")
+                   .style("stroke-width", 1)
+                   .transition()
+                   .duration(100)
+                   .delay(400)
+                   .ease('linear')
+                   .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+                          y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]});
+
+              svg.append("line")
+                     .attr({x1:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+                            y1:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1],
+                            x2:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
+                            y2:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]})
+                      .style("stroke", "#D8D8D8")
+                      .style("stroke-width", 1)
+                      .transition()
+                      .duration(100)
+                      .delay(500)
+                      .ease('linear')
+                      .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0],
+                             y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]});              
+          }
+          
+          //Last Animation Set
+          setTimeout( function(){
           var lostKidNumber = 0;
           var lostYear = 0;
           for (var i = 0; i < newData.length; i++) {
@@ -121,8 +180,6 @@ d3.csv("counties-missing-child.csv", function(data) {
                    .attr({x2: locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0],
                           y2: locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1]});
                    
-                   console.log(angleCal(newData[i].locationCount)[0]);
-
                 svg.append("line")
                    .attr({x1:locationX - 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[0],
                           y1:locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1],
@@ -138,15 +195,13 @@ d3.csv("counties-missing-child.csv", function(data) {
                           y2: locationY + 3*parseInt(newData[i].Age)*angleCal(newData[i].locationCount)[1] + 3*eachLostYear*angleCal(newData[i].locationCount)[1]});
                }
             d3.select("#lostYearNumber").text(lostYear)
-              //.delay(30*i);
             lostKidNumber += 1;
             d3.select("#lostChildNumber").text(lostKidNumber)
-             // .delay(30*i);;
           }
-
-          svg.selectAll("circle")
-            .data(newData)
-            .enter()
+          }, timeOut4);
+          // svg.selectAll("circle")
+          //   .data(newData)
+          //   .enter()
             //.append("circle")
             // .attr("cx", function(d) {
             //   return projection([d.position[0], d.position[1]])[0];
