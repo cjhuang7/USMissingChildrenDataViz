@@ -57,7 +57,6 @@ d3.csv("counties-missing-child.csv", function(data) {
                 var varY = d3.randomUniform(dataValue[0][0][1], dataValue[0][2][1])();
                 data[i].position = [varX, varY];
               }
-              console.log(data[i].position);
               data[i].lostLocation = jsonCounty;
               data[i].locationCount = 0;
               for(var k = 0; k < data.length; k++) {
@@ -196,30 +195,31 @@ d3.csv("counties-missing-child.csv", function(data) {
                   }
                 }
 
-          // svg.selectAll("circle")
-          //   .data(newData)
-          //   .enter()
-            //.append("circle")
-            // .attr("cx", function(d) {
-            //   return projection([d.position[0], d.position[1]])[0];
-            // })
-            // .attr("cy", function(d) {
-            //   return projection([d.position[0], d.position[1]])[1];
-            // })
-            // .attr("r", 3)
-            // .style("fill", "#FF4112")
-            // .on("mouseover", function(d) {      
-            //     div.transition()        
-            //          .duration(200)      
-            //          .style("opacity", .9)     
-            //          .text('County:'+(d.County) + "," + 'Name:'+ (d.Name)+ "," + 'Age:' + (d.Age) + "," + 'Gender:' +(d.Gender))
-            //          .style("left", (d3.event.pageX) + "px")     
-            //          .style("top", (d3.event.pageY - 28) + "px");    
-            // })             
-            //   .on("mouseout", function(d) {       
-            //       div.transition()        
-            //          .duration(500)      
-            //          .style("opacity", 0);   
-            // });
+          //Hover
+          svg.selectAll("circle")
+            .data(newData)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) {
+              return projection([d.position[0], d.position[1]])[0];
+            })
+            .attr("cy", function(d) {
+              return projection([d.position[0], d.position[1]])[1];
+            })
+            .attr("r", 2)
+            .style("opacity", 0.0)
+            .on("mouseover", function(d) {      
+                div.transition()        
+                     .duration(200)      
+                     .style("opacity", .9)     
+                     .text('County:'+(d.County) + "," + 'Name:'+ (d.Name)+ "," + 'Age:' + (d.Age) + "," + 'Gender:' +(d.Gender))
+                     .style("left", (d3.event.pageX) + "px")     
+                     .style("top", (d3.event.pageY - 28) + "px");    
+            })             
+              .on("mouseout", function(d) {       
+                  div.transition()        
+                     .duration(200)      
+                     .style("opacity", 0);   
+            });
       });
 });
