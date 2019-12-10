@@ -3,17 +3,11 @@ var height = 620;
 
 //calculate drawing angle
 function angleCal(locationCount){
-  var angle = Math.PI/4 + locationCount*(Math.PI/120);
-  console.log("angle:" + angle);
+  var angle = Math.PI/4; //+ locationCount*(Math.PI/120);
   var sinX = Math.sin(angle);
   var cosX = Math.cos(angle);
-  console.log("sinX:" + sinX);
-  console.log("cosX:" +cosX);
   return [sinX, cosX];
 }
-// var angle = Math.PI/4;
-// var sinX = Math.asin(angle);
-// var cossX = Math.acos(angle);
 
 // D3 Projection
 var projection = d3.geo.albersUsa()
@@ -63,6 +57,12 @@ d3.csv("counties-missing-child.csv", function(data) {
                   data[i].locationCount += 1;
                 }
               }
+              // if(dataValue[0][data[i].locationCount%dataValue[0].length+1]!=' '){
+              // data[i].position = (dataValue[0][data[i].locationCount%dataValue[0].length] + dataValue[0][data[i].locationCount%dataValue[0].length + 1])/2;
+              // }
+              // else{
+              //   data[i].position = dataValue[0][data[i].locationCount%dataValue[0].length];  
+              // }
             break;
             }
           }
@@ -81,7 +81,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             .attr("d", path)
             .style("stroke", "#4A4A4A")
             .style("stroke-width", "1")
-            .style("fill", "#4A4A4A");
+            .style("fill", "none");
 
           //add dots for each missing child
           var lostKidNumber = 0;
@@ -94,7 +94,8 @@ d3.csv("counties-missing-child.csv", function(data) {
             svg.append("circle")
               .attr("cx", locationX)
               .attr("cy", locationY)
-              .attr("r", data[i].locationCount*0.5)
+              .attr("r", 2)
+              //.attr("r", data[i].locationCount*0.5)
               .transition()
               .duration(3)
               .delay(9*i)
