@@ -2,18 +2,6 @@
 var width = 1440;
 var height = 620;
 
-//animation time set 
-var timeOut1 = 0;
-var timeOut2 = 3000;
-var timeOut3 = 6000;
-var timeOut4 = 10000;
-var timeOut5 = 13000;
-var timeOut6 = 16000;
-var timeOut7 = 20000;
-var timeOut8 = 23000;
-var timeOut9 = 26000;
-var timeOut10 = 40000;
-
 //calculate drawing angle
 function angleCal(locationCount){
   var angle = Math.PI/4; //+ locationCount*(Math.PI/120);
@@ -194,49 +182,6 @@ d3.csv("counties-missing-child.csv", function(data) {
                   }
                 }
 
-          // function showData(label){
-          //   var locationX = projection([newData[label].position[0], newData[label].position[1]])[0];
-          //   var locationY = projection([newData[label].position[0], newData[label].position[1]])[1];
-          //   var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
-          //   svg.append("circle")
-          //     .attr("cx", locationX)
-          //     .attr("cy", locationY)
-          //     .attr("r", 2)
-          //     .transition()
-          //     .duration(100)
-          //     .delay(300)
-          //     .ease('linear')
-          //     .style("fill", "#FF4112");
-            
-          //   svg.append("line")
-          //          .attr({x1:locationX,
-          //                 y1:locationY,
-          //                 x2:locationX,
-          //                 y2:locationY})
-          //          .style("stroke", "#FF4112")
-          //          .style("stroke-width", 1)
-          //          .transition()
-          //          .duration(100)
-          //          .delay(400)
-          //          .ease('linear')
-          //          .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
-          //                 y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]});
-
-          //     svg.append("line")
-          //            .attr({x1:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
-          //                   y1:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1],
-          //                   x2:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
-          //                   y2:locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]})
-          //             .style("stroke", "#D8D8D8")
-          //             .style("stroke-width", 1)
-          //             .transition()
-          //             .duration(100)
-          //             .delay(500)
-          //             .ease('linear')
-          //             .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0],
-          //                    y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]});              
-          // }
-          
           //Last Animation Set
           // setTimeout( function(){
           // var lostKidNumber = 0;
@@ -321,8 +266,5 @@ d3.csv("counties-missing-child.csv", function(data) {
             //          .duration(500)      
             //          .style("opacity", 0);   
             // });
-            
-
       });
-
 });
