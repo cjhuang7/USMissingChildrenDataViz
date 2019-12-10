@@ -1,6 +1,6 @@
 //canvas size set
 var width = 1440;
-var height = 620;
+var height = 760;
 
 //calculate drawing angle
 function angleCal(locationCount){
@@ -12,13 +12,12 @@ function angleCal(locationCount){
 
 // D3 Projection
 var projection = d3.geo.albersUsa()
-           .translate([width/1.95, height/2.2])    // translate to center of screen
-           .scale([1200]);                    // scale things down so see entire US
+           .translate([width/2, height/2.2])    // translate to center of screen
+           .scale([1400]);                    // scale things down so see entire US
         
 // Define path generator
 var path = d3.geo.path()               // path generator that will convert GeoJSON to SVG paths
          .projection(projection);      // tell path generator to use albersUsa projection
-
 
 //Create SVG element and append map to the SVG
 var svg = d3.select("body")
@@ -50,7 +49,15 @@ d3.csv("counties-missing-child.csv", function(data) {
             
             // check if the county name matches and append the position value to the data
             if (dataCounty == jsonCounty) {
-              data[i].position = dataValue[0][0];
+              if(Array.isArray(dataValue[0][0][0])){
+                data[i].position = dataValue[0][0][0];
+              }
+              else{
+                var varX = d3.randomUniform(dataValue[0][0][0], dataValue[0][2][0])();
+                var varY = d3.randomUniform(dataValue[0][0][1], dataValue[0][2][1])();
+                data[i].position = [varX, varY];
+              }
+              console.log(data[i].position);
               data[i].lostLocation = jsonCounty;
               data[i].locationCount = 0;
               for(var k = 0; k < data.length; k++) {
@@ -58,12 +65,6 @@ d3.csv("counties-missing-child.csv", function(data) {
                   data[i].locationCount += 1;
                 }
               }
-              // if(dataValue[0][data[i].locationCount%dataValue[0].length+1]!=' '){
-              // data[i].position = (dataValue[0][data[i].locationCount%dataValue[0].length] + dataValue[0][data[i].locationCount%dataValue[0].length + 1])/2;
-              // }
-              // else{
-              //   data[i].position = dataValue[0][data[i].locationCount%dataValue[0].length];  
-              // }
             break;
             }
           }
@@ -147,7 +148,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             svg.append("circle")
               .attr("cx", locationX)
               .attr("cy", locationY)
-              .attr("r", 2)
+              .attr("r", 1.6)
               .transition()
               //.duration(100)
               .ease('linear')

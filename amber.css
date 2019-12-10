@@ -7,36 +7,38 @@ body {
 	position:relative;
 	margin: auto;
 	width: 1024px;
+	height: 120px;
 	overflow: hidden;
 }
 
 #header {
 	color: #d8d8d8;
-	font-size: 36px;
+	font-size: 30px;
 	font-style: 'Roboto';
 	font-weight: 300;
+	margin-bottom: 0px;
 }
 
 #statistics{
-	height: 100px;
+	height: 40px;
 }
 
 #child {
 	position: absolute;
 	left: 0px;
-	top: 80px;
+	top: 60px;
 }
 
 #year {
 	position: absolute;
 	right: 32px;
-	top: 80px;
+	top: 60px;
 }
 
 
 #lostChildNumber {
 	color: #FF4112;
-	font-size: 68px;
+	font-size: 32px;
 	font-style: 'Roboto';
 	font-weight: 400;
 	float: left;
@@ -52,7 +54,7 @@ body {
 
 #lostYearNumber {
 	color: #d8d8d8;
-	font-size: 68px;
+	font-size: 32px;
 	font-style: 'Roboto';
 	font-weight: 400;
 	float: right;
