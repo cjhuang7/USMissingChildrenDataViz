@@ -108,7 +108,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             animateDraw(1,1);
             }, 2000);
             if(typeof callback == 'function')
-            callback();}, 4000);
+            callback();}, 5000);
           }
           
           var lostKidNumber = 2;
@@ -133,20 +133,9 @@ d3.csv("counties-missing-child.csv", function(data) {
             }, 5*i);
           }
 
-          // function executeAsynchronously(functions, timeout) {
-          //   for(var i = 0; i < functions.length; i++) {
-          //     setTimeout(functions[i], timeout);
-          //   }
-          // }
-
-          // function animateDraw(label){
-          // executeAsynchronously(
-          //   [circleDraw(label), orangeLineDraw(label), whiteLineDraw(label)], 10000);
-          // }
-
           //Intergrate Animation
           function animateDraw(label, state){
-            if (state == 1){
+            if (state == 1){          //For the first two data
             circleDraw(label, function() {
               orangeLineDraw(label, function() {
                 labelWrite1(label, function() {
@@ -158,7 +147,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               });
             });
           });}
-          else{
+          else{                       //For meteour effect
             circleDraw(label, function() {
               orangeLineDraw(label, function() {
                   whiteLineDraw(label, function() {
@@ -169,47 +158,6 @@ d3.csv("counties-missing-child.csv", function(data) {
 
           }
         }
-
-          //Function for writing the first label to describe when does the kid lose
-          function labelWrite1(label, callback){
-            var locationX = projection([newData[label].position[0], newData[label].position[1]])[0] - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0];
-            var locationY = projection([newData[label].position[0], newData[label].position[1]])[1] + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1];
-            
-            svg.append("text")
-              .attr("x", locationX + 2)
-              .attr("y", locationY + 10)
-              .attr("font-family", "roboto")
-              .attr("font-size", 14)
-              .attr("fill", "#D8D8D8")
-              .text(newData[label].Name + ", missed at " + newData[label].Age + ".")
-              .transition()
-              .ease('linear')
-              .delay(3000);
-            
-            //svg.select("#shit").remove()
-            callback();
-          }
-
-          //Function for writing the second label to describe how old the kid would be if he/she survives
-          function labelWrite2(label, callback){
-            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
-            var locationX = projection([newData[label].position[0], newData[label].position[1]])[0] - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0];
-            var locationY = projection([newData[label].position[0], newData[label].position[1]])[1] + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]; 
-            svg.append("text")
-              .attr("x", locationX + 2)
-              .attr("y", locationY + 10)
-              .attr("font-family", "roboto")
-              .attr("font-size", 14)
-              .attr("font-style", "italic")
-              .attr("fill", "#D8D8D8")
-              .text("Could have been " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + 1) + " now")
-              .transition()
-              .ease('linear')
-              .delay(10000);
-            
-              //svg.select("#shit").remove()
-            callback();
-          }
           
           //Function for drawing circle, 2 different lines
           function circleDraw(label, callback){
@@ -222,7 +170,6 @@ d3.csv("counties-missing-child.csv", function(data) {
               .attr("cy", locationY)
               .attr("r", 1.6)
               .transition()
-              //.duration(100)
               .ease('linear')
               .style("fill", "#FF4112");
 
@@ -243,13 +190,32 @@ d3.csv("counties-missing-child.csv", function(data) {
             .style("stroke-width", 1)
             .transition()
             .delay(1000)
-            //.duration(100)
             .ease('linear')
             .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
                    y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]});
                   }
             callback();
                 }
+
+          //Function for writing the first label to describe when does the kid lose
+          function labelWrite1(label, callback){
+            var locationX = projection([newData[label].position[0], newData[label].position[1]])[0] - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0];
+            var locationY = projection([newData[label].position[0], newData[label].position[1]])[1] + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1];
+            
+            svg.append("text")
+              .attr("x", locationX + 2)
+              .attr("y", locationY + 10)
+              .attr("font-family", "roboto")
+              .attr("font-size", 14)
+              .attr("fill", "#D8D8D8")
+              .text(newData[label].Name + ", missed at " + newData[label].Age + ".")
+              .transition()
+              .delay(5000)
+              .ease('linear')
+              .remove();
+            
+            callback();
+          }
 
           function whiteLineDraw(label, callback){
             if(newData[label].Age.length != 0){
@@ -265,14 +231,34 @@ d3.csv("counties-missing-child.csv", function(data) {
              .style("stroke", "#D8D8D8")
              .style("stroke-width", 1)
              .transition()
-             //.duration(100)
-             .delay(5000)
+             .delay(8000)
              .ease('linear')
              .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0],
                     y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]}); 
                   }
             callback();
                 }
+
+          //Function for writing the second label to describe how old the kid would be if he/she survives
+          function labelWrite2(label, callback){
+            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
+            var locationX = projection([newData[label].position[0], newData[label].position[1]])[0] - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0];
+            var locationY = projection([newData[label].position[0], newData[label].position[1]])[1] + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]; 
+            svg.append("text")
+              .attr("x", locationX + 2)
+              .attr("y", locationY + 10)
+              .attr("font-family", "roboto")
+              .attr("font-size", 14)
+              .attr("font-style", "italic")
+              .attr("fill", "#D8D8D8")
+              .text("Could have been " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + 1) + " now")
+              .transition()
+              .delay(12000)
+              .ease('linear')
+              .remove();
+
+            callback();
+          }
 
           //Hover
           svg.selectAll("circle")
