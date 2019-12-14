@@ -130,7 +130,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               lostYear += eachLostYear;}
               d3.select("#lostYearNumber").text(lostYear);
               animateDraw(i,0);
-            }, 10*i);
+            }, 12*i);
           }
 
           //Intergrate Animation
@@ -203,15 +203,16 @@ d3.csv("counties-missing-child.csv", function(data) {
             var locationY = projection([newData[label].position[0], newData[label].position[1]])[1] + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1];
             
             svg.append("text")
+              .transition()
+              .delay(1200)
+              .duration(5000)
+              .ease('linear')
               .attr("x", locationX + 2)
               .attr("y", locationY + 10)
               .attr("font-family", "roboto")
               .attr("font-size", 14)
               .attr("fill", "#D8D8D8")
               .text(newData[label].Name + ", missed at " + newData[label].Age + ".")
-              .transition()
-              .delay(1200)
-              .ease('linear')
               .remove();
             
             callback();
@@ -245,6 +246,10 @@ d3.csv("counties-missing-child.csv", function(data) {
             var locationX = projection([newData[label].position[0], newData[label].position[1]])[0] - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0];
             var locationY = projection([newData[label].position[0], newData[label].position[1]])[1] + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]; 
             svg.append("text")
+              .transition()
+              .delay(5000)
+              .duration(5000)
+              .ease('linear')
               .attr("x", locationX + 2)
               .attr("y", locationY + 10)
               .attr("font-family", "roboto")
@@ -252,9 +257,6 @@ d3.csv("counties-missing-child.csv", function(data) {
               .attr("font-style", "italic")
               .attr("fill", "#D8D8D8")
               .text("Could have been " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + 1) + " now")
-              .transition()
-              .delay(3200)
-              .ease('linear')
               .remove();
 
             callback();

@@ -92,6 +92,7 @@ div.tooltip {
 } 
 
 div.tooltip {
+	font-style: 'Roboto';
 	width: 360px;
 	height: 24px;
 	font-size: 20px;
