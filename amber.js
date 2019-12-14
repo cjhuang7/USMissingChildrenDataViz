@@ -12,7 +12,7 @@ function angleCal(locationCount){
 
 // D3 Projection
 var projection = d3.geo.albersUsa()
-           .translate([width/2, height/2.2])    // translate to center of screen
+           .translate([width/2, height/2.25])    // translate to center of screen
            .scale([1300]);                    // scale things down so see entire US
         
 // Define path generator
@@ -93,8 +93,8 @@ d3.csv("counties-missing-child.csv", function(data) {
           
           function firstAnimation(callback){
             setTimeout(function(){
-            d3.select("#lostYearNumber").text('58');
             d3.select("#lostChildNumber").text('1');
+            d3.select("#lostYearNumber").text('62');
             animateDraw(0,1);
             if(typeof callback == 'function')
             callback();}, 1000);
@@ -103,7 +103,7 @@ d3.csv("counties-missing-child.csv", function(data) {
           function secondAnimation(callback){
             setTimeout(function(){
             setTimeout(function(){
-            d3.select("#lostYearNumber").text('86');
+            d3.select("#lostYearNumber").text('93');
             d3.select("#lostChildNumber").text('2');
             animateDraw(1,1);
             }, 2000);
@@ -112,7 +112,7 @@ d3.csv("counties-missing-child.csv", function(data) {
           }
           
           var lostKidNumber = 2;
-          var lostYear = 86;
+          var lostYear = 93;
           
           function thirdAnimation(){
             setTimeout(function(){
@@ -126,7 +126,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               lostKidNumber += 1;
               d3.select("#lostChildNumber").text(lostKidNumber);
               if(newData[i].Age.length != 0){
-              var eachLostYear = 2020 - parseInt(newData[i].BirthDay.slice(-4)) - parseInt(newData[i].Age);
+              var eachLostYear = 2020 - parseInt(newData[i].BirthDay.slice(-4));
               lostYear += eachLostYear;}
               d3.select("#lostYearNumber").text(lostYear);
               animateDraw(i,0);
@@ -135,7 +135,7 @@ d3.csv("counties-missing-child.csv", function(data) {
 
           //Intergrate Animation
           function animateDraw(label, state){
-            if (state == 1){          //For the first two data
+            if (state == 0 || 1){          //For the first two data
             circleDraw(label, function() {
               orangeLineDraw(label, function() {
                 labelWrite1(label, function() {
@@ -163,7 +163,7 @@ d3.csv("counties-missing-child.csv", function(data) {
           function circleDraw(label, callback){
             var locationX = projection([newData[label].position[0], newData[label].position[1]])[0];
             var locationY = projection([newData[label].position[0], newData[label].position[1]])[1];
-            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
+            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4));
             
             svg.append("circle")
               .attr("cx", locationX)
@@ -205,10 +205,10 @@ d3.csv("counties-missing-child.csv", function(data) {
             svg.append("text")
               .transition()
               .delay(1200)
-              .duration(5000)
+              .duration(8000)
               .ease('linear')
-              .attr("x", locationX + 2)
-              .attr("y", locationY + 10)
+              .attr("x", locationX + 5)
+              .attr("y", locationY + 15)
               .attr("font-family", "roboto")
               .attr("font-size", 14)
               .attr("fill", "#D8D8D8")
@@ -222,7 +222,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             if(newData[label].Age.length != 0){
             var locationX = projection([newData[label].position[0], newData[label].position[1]])[0];
             var locationY = projection([newData[label].position[0], newData[label].position[1]])[1];
-            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
+            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4));
 
             svg.append("line")
             .attr({x1:locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
@@ -233,6 +233,7 @@ d3.csv("counties-missing-child.csv", function(data) {
              .style("stroke-width", 1)
              .transition()
              .delay(3000)
+             .duration(5000)
              .ease('linear')
              .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0],
                     y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]}); 
@@ -242,7 +243,7 @@ d3.csv("counties-missing-child.csv", function(data) {
 
           //Function for writing the second label to describe how old the kid would be if he/she survives
           function labelWrite2(label, callback){
-            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4)) - parseInt(newData[label].Age);
+            var eachLostYear = 2020 - parseInt(newData[label].BirthDay.slice(-4));
             var locationX = projection([newData[label].position[0], newData[label].position[1]])[0] - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0];
             var locationY = projection([newData[label].position[0], newData[label].position[1]])[1] + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]; 
             svg.append("text")
@@ -250,13 +251,13 @@ d3.csv("counties-missing-child.csv", function(data) {
               .delay(5000)
               .duration(5000)
               .ease('linear')
-              .attr("x", locationX + 2)
-              .attr("y", locationY + 10)
+              .attr("x", locationX + 5)
+              .attr("y", locationY + 15)
               .attr("font-family", "roboto")
               .attr("font-size", 14)
               .attr("font-style", "italic")
               .attr("fill", "#D8D8D8")
-              .text("Could have been " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + 1) + " now")
+              .text("Could have been " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + parseInt(newData[label].Age) + 1) + " now")
               .remove();
 
             callback();
