@@ -1,6 +1,6 @@
 //canvas size set
 var width = 1440;
-var height = 760;
+var height = 700;
 
 //calculate drawing angle
 function angleCal(locationCount){
@@ -13,7 +13,7 @@ function angleCal(locationCount){
 // D3 Projection
 var projection = d3.geo.albersUsa()
            .translate([width/2, height/2.2])    // translate to center of screen
-           .scale([1400]);                    // scale things down so see entire US
+           .scale([1300]);                    // scale things down so see entire US
         
 // Define path generator
 var path = d3.geo.path()               // path generator that will convert GeoJSON to SVG paths
@@ -130,7 +130,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               lostYear += eachLostYear;}
               d3.select("#lostYearNumber").text(lostYear);
               animateDraw(i,0);
-            }, 5*i);
+            }, 10*i);
           }
 
           //Intergrate Animation
@@ -210,7 +210,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               .attr("fill", "#D8D8D8")
               .text(newData[label].Name + ", missed at " + newData[label].Age + ".")
               .transition()
-              .delay(5000)
+              .delay(1200)
               .ease('linear')
               .remove();
             
@@ -231,7 +231,7 @@ d3.csv("counties-missing-child.csv", function(data) {
              .style("stroke", "#D8D8D8")
              .style("stroke-width", 1)
              .transition()
-             .delay(8000)
+             .delay(3000)
              .ease('linear')
              .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0] - 3*eachLostYear*angleCal(newData[label].locationCount)[0],
                     y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1] + 3*eachLostYear*angleCal(newData[label].locationCount)[1]}); 
@@ -253,7 +253,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               .attr("fill", "#D8D8D8")
               .text("Could have been " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + 1) + " now")
               .transition()
-              .delay(12000)
+              .delay(3200)
               .ease('linear')
               .remove();
 
@@ -261,30 +261,36 @@ d3.csv("counties-missing-child.csv", function(data) {
           }
 
           //Hover
-          svg.selectAll("circle")
+          svg.selectAll('circle')
             .data(newData)
             .enter()
-            .append("circle")
-            .attr("cx", function(d) {
-              return projection([d.position[0], d.position[1]])[0];
+            .append('circle')
+            .attr('r', 10)
+            .style("opacity", 0)
+            .attr('cx', function(d) { return projection([d.position[0], d.position[1]])[0]; })
+            .attr('cy', function(d) { return projection([d.position[0], d.position[1]])[1];})
+            .on('mouseover', function(d, i) {
+              div.transition()        
+                 .style("opacity", .9) 
+                 .text((d.Name)+ "," + 'Age:' + (d.Age) + "," + 'Gender:' +(d.Gender))
+                 .style("left", (d3.event.pageX + 15) + "px")     
+                 .style("top", (d3.event.pageY - 55) + "px")
+             
+              d3.select(this)
+                .transition()
+                .duration(100)
+                .attr('r', 8)
+                .style("opacity", 1)
+                .attr('fill', '#ff4112');
             })
-            .attr("cy", function(d) {
-              return projection([d.position[0], d.position[1]])[1];
+            .on('mouseout', function(d, i) {
+              div.transition()        
+                     //.duration(200)      
+                     .style("opacity", 0); 
+
+              d3.select(this)
+                .transition()
+                .style("opacity", 0)
             })
-            .attr("r", 2)
-            .style("opacity", 0.0)
-            .on("mouseover", function(d) {      
-                div.transition()        
-                     .duration(200)      
-                     .style("opacity", .9)     
-                     .text('County:'+(d.County) + "," + 'Name:'+ (d.Name)+ "," + 'Age:' + (d.Age) + "," + 'Gender:' +(d.Gender))
-                     .style("left", (d3.event.pageX) + "px")     
-                     .style("top", (d3.event.pageY - 28) + "px");    
-            })             
-              .on("mouseout", function(d) {       
-                  div.transition()        
-                     .duration(200)      
-                     .style("opacity", 0);   
-            });
       });
 });
