@@ -88,7 +88,7 @@ d3.csv("counties-missing-child.csv", function(data) {
           godSaidItsTheBegining();
           
           function godSaidItsTheBegining() {
-              firstAnimation(secondAnimation(thirdAnimation));
+              firstAnimation(secondAnimation(thirdAnimation(lastAnimation)));
           }
           
           function firstAnimation(callback){
@@ -110,15 +110,26 @@ d3.csv("counties-missing-child.csv", function(data) {
             if(typeof callback == 'function')
             callback();}, 5000);
           }
+
+          function thirdAnimation(callback){
+            setTimeout(function(){
+            setTimeout(function(){
+            d3.select("#lostYearNumber").text('103');
+            d3.select("#lostChildNumber").text('3');
+            animateDraw(2,1);
+            }, 6000);
+            if(typeof callback == 'function')
+            callback();}, 10000);
+          }
           
           var lostKidNumber = 2;
           var lostYear = 93;
           
-          function thirdAnimation(){
+          function lastAnimation(){
             setTimeout(function(){
               for (var i = 3; i < newData.length; i++) {
                 meteourEffect(i);}
-            }, 10000);
+            }, 15000);
           }
 
           function meteourEffect(i){ 
@@ -190,6 +201,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             .style("stroke-width", 1)
             .transition()
             .delay(1000)
+            .duration(1500)
             .ease('linear')
             .attr({x2: locationX - 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[0],
                    y2: locationY + 3*parseInt(newData[label].Age)*angleCal(newData[label].locationCount)[1]});
@@ -205,7 +217,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             svg.append("text")
               .transition()
               .delay(1200)
-              .duration(8000)
+              .duration(6000)
               .ease('linear')
               .attr("x", locationX + 5)
               .attr("y", locationY + 15)
@@ -257,7 +269,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               .attr("font-size", 14)
               .attr("font-style", "italic")
               .attr("fill", "#D8D8D8")
-              .text("Could have been " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + parseInt(newData[label].Age) + 1) + " now")
+              .text("Would be " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + parseInt(newData[label].Age) + 1) + " now.")
               .remove();
 
             callback();
