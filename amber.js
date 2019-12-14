@@ -270,11 +270,13 @@ d3.csv("counties-missing-child.csv", function(data) {
             .attr('cx', function(d) { return projection([d.position[0], d.position[1]])[0]; })
             .attr('cy', function(d) { return projection([d.position[0], d.position[1]])[1];})
             .on('mouseover', function(d, i) {
-              div.transition()        
-                 .style("opacity", .9) 
-                 .text((d.Name)+ "," + 'Age:' + (d.Age) + "," + 'Gender:' +(d.Gender))
+              div.transition()       
+                 .style("opacity", .9)
+                 .text((d.Name)+ ", " + 'missed at ' + (d.BirthDay.slice(-4)))
                  .style("left", (d3.event.pageX + 15) + "px")     
                  .style("top", (d3.event.pageY - 55) + "px")
+                  //.attr("dy", "1em") 
+                 
              
               d3.select(this)
                 .transition()
