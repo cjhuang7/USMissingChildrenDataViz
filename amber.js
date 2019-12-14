@@ -141,12 +141,12 @@ d3.csv("counties-missing-child.csv", function(data) {
               lostYear += eachLostYear;}
               d3.select("#lostYearNumber").text(lostYear);
               animateDraw(i,0);
+              hover();
             }, 12*i);
           }
 
           //Intergrate Animation
           function animateDraw(label, state){
-            if (state == 0 || 1){          //For the first two data
             circleDraw(label, function() {
               orangeLineDraw(label, function() {
                 labelWrite1(label, function() {
@@ -157,17 +157,7 @@ d3.csv("counties-missing-child.csv", function(data) {
                 });
               });
             });
-          });}
-          else{                       //For meteour effect
-            circleDraw(label, function() {
-              orangeLineDraw(label, function() {
-                  whiteLineDraw(label, function() {
-                  //All three functions have completed, in order.
-              });
-            });
           });
-
-          }
         }
           
           //Function for drawing circle, 2 different lines
@@ -224,7 +214,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               .attr("font-family", "roboto")
               .attr("font-size", 14)
               .attr("fill", "#D8D8D8")
-              .text(newData[label].Name + ", missed at " + newData[label].Age + ".")
+              .text(newData[label].Name + ", missing at age " + newData[label].Age + ".")
               .remove();
             
             callback();
@@ -269,13 +259,14 @@ d3.csv("counties-missing-child.csv", function(data) {
               .attr("font-size", 14)
               .attr("font-style", "italic")
               .attr("fill", "#D8D8D8")
-              .text("Would be " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + parseInt(newData[label].Age) + 1) + " now.")
+              .text("Would be " + (2020 - parseInt(newData[label].BirthDay.slice(-4)) + parseInt(newData[label].Age)) + " now.")
               .remove();
 
             callback();
           }
 
           //Hover
+          function hover(){
           svg.selectAll('circle')
             .data(newData)
             .enter()
@@ -287,27 +278,37 @@ d3.csv("counties-missing-child.csv", function(data) {
             .on('mouseover', function(d, i) {
               div.transition()       
                  .style("opacity", .9)
-                 .text((d.Name)+ ", " + 'missed at ' + (d.BirthDay.slice(-4)))
+                 .text((d.Name) + ' (' + (parseInt((d.BirthDay.slice(-4))) - parseInt((d.Age))) + ' - )')
                  .style("left", (d3.event.pageX + 15) + "px")     
                  .style("top", (d3.event.pageY - 55) + "px")
                   //.attr("dy", "1em") 
                  
-             
               d3.select(this)
                 .transition()
                 .duration(100)
                 .attr('r', 8)
                 .style("opacity", 1)
                 .attr('fill', '#ff4112');
+
+              d3.select(this)
+                .style("cursor", "pointer");
             })
             .on('mouseout', function(d, i) {
               div.transition()        
-                     //.duration(200)      
                      .style("opacity", 0); 
 
               d3.select(this)
                 .transition()
                 .style("opacity", 0)
             })
+            .on('click', function (d, i) {
+              if (d.NCMC.length == 0) { 
+                var newWindow = window.open(d.NAMUS);
+                    }
+              else{
+                var newWindow = window.open(d.NCMC);
+              }      
+          })
+        }
       });
 });
