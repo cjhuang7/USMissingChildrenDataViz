@@ -1,3 +1,10 @@
+#dialog p {
+    color: #4A4A4A;
+    text-align: center;
+    font-style: 'Roboto';
+    font-size: 16px;
+}
+
 .blocker{
     position:fixed;
     top:0;
@@ -11,7 +18,7 @@
     padding:20px;
     box-sizing:border-box;
     background-color:#000;
-    background-color:rgba(0,0,0,0.5);
+    background-color:rgba(0,0,0,0.2);
     text-align:center
 }
 
@@ -29,14 +36,14 @@
 
 .modal{
     display:none;
-    vertical-align:middle;
+    vertical-align: middle;
     position:relative;
     z-index:2;
     max-width:500px;
     box-sizing:border-box;
-    width:90%;
-    background:#fff;
-    padding:15px 30px;
+    width:80%;
+    background: rgba(255, 255, 255, 0.95);
+    padding:10px 15px;
     -webkit-border-radius:8px;
     -moz-border-radius:8px;
     -o-border-radius:8px;
@@ -46,7 +53,7 @@
     -moz-box-shadow:0 0 10px #000;
     -o-box-shadow:0 0 10px #000;
     -ms-box-shadow:0 0 10px #000;
-    box-shadow:0 0 10px #000;text-align:left
+    box-shadow:0 0 10px #000;
 }
 
 .modal a.close-modal{

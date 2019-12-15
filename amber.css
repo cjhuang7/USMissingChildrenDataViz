@@ -79,8 +79,10 @@ div.tooltip {
 	text-align: center;           
 	width: 200px;                  
 	height: 50px;                 
-	padding: 2px;             
-	font: 12px sans-serif;        
+	padding: 2px;   
+	font: 12px sans-serif;
+	font-style: italic;   
+	color: #4A4A4A;     
 	background: white;   
 	border: 0px;      
 	border-radius: 8px;           

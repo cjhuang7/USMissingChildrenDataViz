@@ -145,7 +145,7 @@ d3.csv("counties-missing-child.csv", function(data) {
               hover();
               if(i == newData.length - 1){
                 $('#dialog').modal({
-                  fadeDuration: 500,
+                  fadeDuration: 1200,
                   fadeDelay: 0.80
                 });
               }
@@ -214,7 +214,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             svg.append("text")
               .transition()
               .delay(1200)
-              .duration(7500)
+              .duration(8000)
               .ease('linear')
               .attr("x", locationX + 5)
               .attr("y", locationY + 15)
@@ -317,6 +317,5 @@ d3.csv("counties-missing-child.csv", function(data) {
               }      
           })
         }
-
       });
 });
