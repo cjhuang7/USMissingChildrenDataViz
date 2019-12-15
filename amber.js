@@ -128,7 +128,8 @@ d3.csv("counties-missing-child.csv", function(data) {
           function lastAnimation(){
             setTimeout(function(){
               for (var i = 3; i < newData.length; i++) {
-                meteourEffect(i);}
+                meteourEffect(i);
+              }
             }, 15000);
           }
 
@@ -142,6 +143,12 @@ d3.csv("counties-missing-child.csv", function(data) {
               d3.select("#lostYearNumber").text(lostYear);
               animateDraw(i,0);
               hover();
+              if(i == newData.length - 1){
+                $('#dialog').modal({
+                  fadeDuration: 500,
+                  fadeDelay: 0.80
+                });
+              }
             }, 12*i);
           }
 
@@ -207,7 +214,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             svg.append("text")
               .transition()
               .delay(1200)
-              .duration(6000)
+              .duration(7500)
               .ease('linear')
               .attr("x", locationX + 5)
               .attr("y", locationY + 15)
@@ -278,7 +285,7 @@ d3.csv("counties-missing-child.csv", function(data) {
             .on('mouseover', function(d, i) {
               div.transition()       
                  .style("opacity", .9)
-                 .text((d.Name) + ' (' + (parseInt((d.BirthDay.slice(-4))) - parseInt((d.Age))) + ' - )')
+                 .text((d.Name) + ' (' + ((d.BirthDay.slice(-4)) - (d.Age)) + ' - )')
                  .style("left", (d3.event.pageX + 15) + "px")     
                  .style("top", (d3.event.pageY - 55) + "px")
                   //.attr("dy", "1em") 
@@ -310,5 +317,6 @@ d3.csv("counties-missing-child.csv", function(data) {
               }      
           })
         }
+
       });
 });
